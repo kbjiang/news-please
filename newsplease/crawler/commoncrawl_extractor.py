@@ -139,6 +139,14 @@ class CommonCrawlExtractor:
                     return False, article
                 if self.__filter_end_date and publishing_date > self.__filter_end_date:
                     return False, article
+            
+        # filter by languages
+        if not article:
+            article = self._from_warc(warc_record)
+        if not hasattr(article, 'language'):
+            return False, article
+        if article.language not in ["en"]:
+            return False, article
 
         return True, article
 
